@@ -15,5 +15,6 @@
     <string name="password_hint">输入密码</string>
     <string name="game_chance">剩余游戏次数:%1$d</string>
     <string name="game_start">开始游戏</string>
+    <string name="game_score">Game Activity Preview\nScore: %1$d</string>
 
 </resources>
