@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MatchCards</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="welcome_message">欢迎来到MatchCards!\n请从左侧导航栏选择功能</string>
+    <string name="game_section">游戏空间</string>
+    <string name="friend_section">我的好友</string>
+    <string name="group_section">我的群组</string>
+    <string name="action_logout">注销</string>
+    <string name="action_login">登录</string>
+    <string name="action_register">注册</string>
+    <string name="action_cancel">取消</string>
+    <string name="username_hint">输入用户名</string>
+    <string name="password_hint">输入密码</string>
+    <string name="game_chance">剩余游戏次数:%1$d</string>
+    <string name="high_score">我的最高分:%1$d</string>
+    <string name="game_start">开始游戏</string>
+    <string name="game_score">MatchCards Preview\nScore: %1$d</string>
+    <string name="game_level">等级:%1$d　限时:%2$d秒</string>
+    <string name="action_settings">设置</string>
+</resources>
