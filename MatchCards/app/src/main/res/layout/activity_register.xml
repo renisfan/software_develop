@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/epassword"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -28,13 +28,13 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/eusername"
         android:layout_marginBottom="27dp"
-        android:layout_above="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_above="@+id/epassword"
+        android:layout_alignLeft="@+id/epassword"
+        android:layout_alignStart="@+id/epassword"
+        android:layout_alignRight="@+id/epassword"
+        android:layout_alignEnd="@+id/epassword" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:id="@+id/textView2"
         android:gravity="center"
         android:textSize="25dp"
-        android:layout_alignTop="@+id/editText2"
+        android:layout_alignTop="@+id/eusername"
         android:layout_toLeftOf="@+id/button"
         android:layout_toStartOf="@+id/button" />
 
@@ -54,7 +54,7 @@
         android:id="@+id/textView3"
         android:textSize="25dp"
         android:gravity="center"
-        android:layout_alignTop="@+id/editText"
+        android:layout_alignTop="@+id/epassword"
         android:layout_alignRight="@+id/textView2"
         android:layout_alignEnd="@+id/textView2" />
 
@@ -63,13 +63,13 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText3"
+        android:id="@+id/epassword2"
         android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_alignLeft="@+id/epassword"
+        android:layout_alignStart="@+id/epassword"
         android:layout_marginTop="36dp"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignRight="@+id/epassword"
+        android:layout_alignEnd="@+id/epassword" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
         android:id="@+id/textView4"
         android:textSize="25dp"
         android:gravity="center"
-        android:layout_alignTop="@+id/editText3"
+        android:layout_alignTop="@+id/epassword2"
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignStart="@+id/textView3" />
 
@@ -88,6 +88,6 @@
         android:text="提交"
         android:id="@+id/button"
         android:layout_marginTop="38dp"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/epassword2"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
