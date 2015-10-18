@@ -37,6 +37,8 @@ public class LoginActivity extends Activity {
 		db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
 				+ "/test.dbs", null);
 
+		db.execSQL("delete from tb_user");
+
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -90,14 +92,10 @@ public class LoginActivity extends Activity {
 			String str="select * from tb_user where name=? and password=?";
 			Cursor cursor = db.rawQuery(str, new String []{name,pwd});
 			if(cursor.getCount()<=0){
-				new AlertDialog.Builder(LoginActivity.this).setTitle("错误")
-						.setMessage("帐号或密码错误！").setPositiveButton("确定", null)
-						.show();
 				return false;
 			}else{
-				new AlertDialog.Builder(LoginActivity.this).setTitle("正确")
-						.setMessage("成功登录").setPositiveButton("确定", null)
-						.show();
+				Toast.makeText(getApplicationContext(), "登录成功!",
+						Toast.LENGTH_SHORT).show();
 				return true;
 			}
 

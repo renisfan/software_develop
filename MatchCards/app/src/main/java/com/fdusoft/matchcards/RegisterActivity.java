@@ -31,12 +31,16 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        ename = (EditText)findViewById(R.id.editText2);
-        epassword = (EditText)findViewById(R.id.editText);
-        epassword2 = (EditText)findViewById(R.id.editText3);
+        ename = (EditText)findViewById(R.id.eusername);
+        epassword = (EditText)findViewById(R.id.epassword);
+        epassword2 = (EditText)findViewById(R.id.epassword2);
         db = SQLiteDatabase.openOrCreateDatabase(RegisterActivity.this.getFilesDir().toString()
                 + "/test.dbs", null);
+
+
+
         Button registerButton = (Button) findViewById(R.id.button);
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,19 +48,25 @@ public class RegisterActivity extends Activity {
 
                 String name = ename.getText().toString();
                 String password = epassword.getText().toString();
-                if (!(ename.getText().toString().equals("") || epassword.getText().toString().equals("") || epassword2.getText().toString().equals(""))) {
+
+                if (!(ename.getText().toString().equals("") || epassword.getText().toString()
+                        .equals("") || epassword2.getText().toString().equals(""))) {
+
                     if (epassword.getText().toString().equals(epassword2.getText().toString())) {
+
                         if (addUser(name, password)) {
-                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent();
-                            intent.setClass(RegisterActivity.this, LoginActivity.class);
-                            RegisterActivity.this.startActivity(intent);
+                            Toast.makeText(RegisterActivity.this, "注册成功",
+                                    Toast.LENGTH_SHORT).show();
+                        //    Intent intent = new Intent();
+                        //    intent.setClass(RegisterActivity.this, LoginActivity.class);
+                        //    RegisterActivity.this.startActivity(intent);
                             RegisterActivity.this.finish();
                         } else {
                             new AlertDialog.Builder(RegisterActivity.this)
                                     .setTitle("ERROR").setMessage("该用户名已被注册")
                                     .setPositiveButton("确定", null).show();
                         }
+
                     } else {
                         new AlertDialog.Builder(RegisterActivity.this)
                                 .setTitle("ERROR").setMessage("两次密码不相等")
