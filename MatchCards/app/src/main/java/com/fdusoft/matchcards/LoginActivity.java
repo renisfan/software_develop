@@ -36,8 +36,9 @@ public class LoginActivity extends Activity {
 
 		db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
 				+ "/test.dbs", null);
-
-		db.execSQL("delete from tb_user");
+		try {
+			db.execSQL("delete from tb_user");
+		} catch (Exception e) {}
 
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
