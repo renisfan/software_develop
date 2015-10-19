@@ -11,6 +11,8 @@ import android.widget.Toast;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 
+import java.io.File;
+
 public class LoginActivity extends Activity {
 
     private SQLiteDatabase db;
@@ -33,12 +35,32 @@ public class LoginActivity extends Activity {
         Button loginButton = (Button) findViewById(R.id.login_button);
         Button registerButton = (Button) findViewById(R.id.register_button);
 
-		db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
-				+ "/test.dbs", null);
-        // Only for debug use: avoid merge conflict
+        //delete former database
+        try {
+           String myPath = LoginActivity.this.getFilesDir().toString()
+                   + "/test.dbs";
+           SQLiteDatabase.deleteDatabase(new File(myPath));
+        }catch(SQLiteException e) {
+
+        }
+
+        db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
+                + "/test.dbs", null);
+
+
+		//create table tb_user
 		try {
-			db.execSQL("delete from tb_user");
-		} catch (Exception e) {}
+			db.execSQL("create table tb_user( name varchar(30) primary key,password varchar(30))");
+		}catch(SQLiteException e){
+		}
+
+		//create table tb_score
+		try {
+			db.execSQL("create table tb_score(name varchar(30) primary key,highScore int)");
+		}catch(SQLiteException e) {
+
+		}
+
 
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
