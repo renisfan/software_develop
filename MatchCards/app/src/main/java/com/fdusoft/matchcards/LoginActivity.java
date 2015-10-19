@@ -33,11 +33,12 @@ public class LoginActivity extends Activity {
         Button loginButton = (Button) findViewById(R.id.login_button);
         Button registerButton = (Button) findViewById(R.id.register_button);
 
-        db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
-                + "/test.dbs", null);
-
+		db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
+				+ "/test.dbs", null);
         // Only for debug use: avoid merge conflict
-        db.execSQL("delete from tb_user");
+		try {
+			db.execSQL("delete from tb_user");
+		} catch (Exception e) {}
 
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
