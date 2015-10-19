@@ -45,12 +45,17 @@ public class RegisterActivity extends Activity {
                 String name = ename.getText().toString();
                 String password = epassword.getText().toString();
 
-                if (!(ename.getText().toString().equals("") || epassword.getText().toString()
-                        .equals("") || epassword2.getText().toString().equals(""))) {
+                if (!(ename.getText().toString().isEmpty() || epassword.getText().toString()
+                        .isEmpty() || epassword2.getText().toString().isEmpty())) {
 
                     if (epassword.getText().toString().equals(epassword2.getText().toString())) {
 
                         if (addUser(name, password)) {
+                            // For debug use: clear former friend data to avoid problems
+                            try {
+                                db.execSQL("delete from tb_friend_"+name);
+                            } catch (Exception e) {}
+
                             Toast.makeText(RegisterActivity.this,
                                     getString(R.string.register_success),
                                     Toast.LENGTH_SHORT).show();

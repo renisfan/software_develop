@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     private String username;
 
     private GameFragment currentGameFragment;
+    private FriendFragment currenFriendFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +127,9 @@ public class MainActivity extends AppCompatActivity
             getFragmentManager().beginTransaction().replace(R.id.container,
                     currentGameFragment).commit();
         } else if (id == R.id.nav_friend) {
+            currenFriendFragment = FriendFragment.getFriendFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
-                    new FriendFragment()).commit();
+                    currenFriendFragment).commit();
         } else if (id == R.id.nav_group) {
             getFragmentManager().beginTransaction().replace(R.id.container,
                     new GroupFragment()).commit();
