@@ -89,6 +89,8 @@ public class RegisterActivity extends Activity {
         String str = "insert into tb_user values(?,?) ";
         try {
             db.execSQL(str, new String[] { name, password });
+            str = "insert into tb_score values(?,?)";
+            db.execSQL(str, new String[] { name, "0"});
             return true;
         } catch (Exception e) {
             try {

@@ -37,7 +37,23 @@ public class LoginActivity extends Activity {
 		db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
 				+ "/test.dbs", null);
 
+		//create table tb_user
+		try {
+			db.execSQL("create table tb_user( name varchar(30) primary key,password varchar(30))");
+		}catch(SQLiteException e){
+		}
+
+		//create table tb_score
+		try {
+			db.execSQL("create table tb_score(name varchar(30) primary key,highScore int");
+		}catch(SQLiteException e) {
+
+		}
+
+		//initialize table
 		db.execSQL("delete from tb_user");
+		db.execSQL("delete from tb_score");
+
 
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
