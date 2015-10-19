@@ -7,15 +7,25 @@
     <string name="friend_section">我的好友</string>
     <string name="group_section">我的群组</string>
     <string name="action_logout">注销</string>
+    <string name="login_hint">用户登录</string>
     <string name="action_login">登录</string>
     <string name="action_register">注册</string>
+    <string name="register_hint">注册新用户</string>
+    <string name="input_username">用户名：</string>
+    <string name="input_password">密码：</string>
+    <string name="input_password2">确认密码：</string>
+    <string name="register_success">注册成功</string>
+    <string name="error_name_used">该用户名已被注册</string>
+    <string name="error_diffrent_password">两次密码不一致</string>
+    <string name="error_empty">用户名密码不能为空</string>
+    <string name="action_confirm">确定</string>
     <string name="action_cancel">取消</string>
     <string name="username_hint">输入用户名</string>
     <string name="password_hint">输入密码</string>
     <string name="game_chance">剩余游戏次数:%1$d</string>
     <string name="high_score">我的最高分:%1$d</string>
     <string name="game_start">开始游戏</string>
-    <string name="game_score">MatchCards Preview\nScore: %1$d</string>
+    <string name="game_score">分数:%1$d</string>
     <string name="game_level">等级:%1$d　限时:%2$d秒</string>
     <string name="action_settings">设置</string>
 </resources>

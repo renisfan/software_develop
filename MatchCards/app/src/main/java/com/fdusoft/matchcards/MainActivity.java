@@ -5,8 +5,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,10 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int REQUEST_GAME = 0;
 
     private String username;
 
@@ -60,6 +59,27 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    // Override finish() to make it pop confirmation window before user logout
+    // CAUTION: DONNOT call finish() when you start sub activities
+    @Override
+    public void finish() {
+        new AlertDialog.Builder(MainActivity.this).setTitle("确定要退出吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                    }
+                }).show();
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -86,25 +106,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // TODO: implement user settings
             return true;
         } else if (id == R.id.action_logout) {
-            new AlertDialog.Builder(MainActivity.this).setTitle("确定要退出吗？")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent();
-                            intent.setClass(MainActivity.this, LoginActivity.class);
-                            MainActivity.this.startActivity(intent);
-                            MainActivity.this.finish();
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                        }
-                    }).show();
+            MainActivity.this.finish();
             return true;
         }
 
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0 && resultCode == 0) {
+        if (requestCode == REQUEST_GAME && resultCode == RESULT_OK) {
             int score = data.getIntExtra("GAME_SCORE", 0);
             currentGameFragment.updateHighScore(score);
         }
