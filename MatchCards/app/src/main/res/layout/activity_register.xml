@@ -2,92 +2,88 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView android:text="注册账户" android:layout_width="wrap_content"
+    <TextView android:text="@string/register_hint" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textSize="30dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/register_title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_username"
+        android:id="@+id/register_username"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/register_title"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"/>
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/eusername"
+        android:layout_alignTop="@id/register_username"
+        android:layout_toRightOf="@id/register_username"
+        android:layout_toEndOf="@id/register_username"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_password"
+        android:id="@+id/register_password"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_below="@id/register_username"
+        android:layout_alignRight="@+id/register_username"
+        android:layout_alignEnd="@id/register_username"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/epassword"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="31dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="221dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/eusername"
-        android:layout_marginBottom="27dp"
-        android:layout_above="@+id/epassword"
-        android:layout_alignLeft="@+id/epassword"
-        android:layout_alignStart="@+id/epassword"
-        android:layout_alignRight="@+id/epassword"
-        android:layout_alignEnd="@+id/epassword" />
+        android:layout_alignTop="@id/register_password"
+        android:layout_toRightOf="@id/register_password"
+        android:layout_toEndOf="@id/register_password" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="用户名："
-        android:id="@+id/textView2"
+        android:text="@string/input_password2"
+        android:id="@+id/register_password2"
         android:gravity="center"
-        android:textSize="25dp"
-        android:layout_alignTop="@+id/eusername"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="         密码："
-        android:id="@+id/textView3"
-        android:textSize="25dp"
-        android:gravity="center"
-        android:layout_alignTop="@+id/epassword"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2" />
+        android:textSize="18sp"
+        android:layout_below="@id/register_password"
+        android:layout_alignRight="@+id/register_password"
+        android:layout_alignEnd="@+id/register_password"
+        android:layout_marginTop="30dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/epassword2"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/epassword"
-        android:layout_alignStart="@+id/epassword"
-        android:layout_marginTop="36dp"
-        android:layout_alignRight="@+id/epassword"
-        android:layout_alignEnd="@+id/epassword" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="密码确认："
-        android:id="@+id/textView4"
-        android:textSize="25dp"
-        android:gravity="center"
-        android:layout_alignTop="@+id/epassword2"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_alignTop="@id/register_password2"
+        android:layout_toRightOf="@+id/register_password2"
+        android:layout_toEndOf="@+id/register_password2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提交"
+        android:text="@string/action_register"
         android:id="@+id/button"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/epassword2"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
