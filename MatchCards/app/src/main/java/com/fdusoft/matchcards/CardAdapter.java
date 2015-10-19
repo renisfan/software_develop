@@ -15,35 +15,31 @@ public class CardAdapter extends BaseAdapter {
 	
 	private int itemSize;
 		
-	public CardAdapter(Context context, int size, int width) {
+	public CardAdapter(Context context, int col, int size, int width) {
 		this.mContext = context;
-		this.items = new CardItem[size * (size-1)];
-		for (int i=0; i<size * (size-1); ++i)
+		this.items = new CardItem[size];
+		for (int i=0; i<size; ++i)
 			items[i] = new CardItem();
-		this.itemSize = width / (size+2);
+		this.itemSize = width / (col+1);
 	}
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return items.length;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return items[position];
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ImageView imageView;
 		if (convertView==null) {
 			imageView=new ImageView(mContext);

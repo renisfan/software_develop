@@ -70,7 +70,6 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if (gameChance <= 0) {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "游戏次数不足!", Toast.LENGTH_SHORT).show();
@@ -81,7 +80,7 @@ public class GameFragment extends Fragment {
                                     gameChance));
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), GameActivity.class);
-                    getActivity().startActivityForResult(intent, 0);
+                    getActivity().startActivityForResult(intent, MainActivity.REQUEST_GAME);
                 }
             }
         });
