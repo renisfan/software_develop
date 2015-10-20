@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import java.util.GregorianCalendar;
+import 	java.util.concurrent.TimeUnit;
 
 import java.io.File;
 
@@ -53,13 +55,16 @@ public class LoginActivity extends Activity {
 			db.execSQL("create table tb_user( name varchar(30) primary key,password varchar(30))");
 		}catch(SQLiteException e){
 		}
-
 		//create table tb_score
 		try {
 			db.execSQL("create table tb_score(name varchar(30) primary key,highScore int)");
 		}catch(SQLiteException e) {
-
 		}
+
+        try {
+            db.execSQL("create table tb_chance(name varchar(30) primary key,chance int,time int)");
+        }catch(SQLiteException e) {
+        }
 
 
         //Set listener
@@ -80,6 +85,12 @@ public class LoginActivity extends Activity {
                         // TODO: add login check
                         // If username and password correct, switch to MainActivity
                         if (isUserinfo(username, password) == true) {
+                            if (db.rawQuery("select * from tb_chance where name=?",new String[]{username}).getCount()==0) {
+                                db.execSQL("insert into tb_chance values(?,?,?)",new Object[]{username,5,getTime()});
+                            }
+                            else {
+                                db.execSQL("update tb_chance set time=? where name=?", new Object[]{getTime(),username});
+                            }
                             Intent intent = new Intent();
                             // Package user info and pass to MainActivity
                             Bundle bundle = new Bundle();
@@ -108,7 +119,13 @@ public class LoginActivity extends Activity {
         });
 
     }
-
+    public int getTime() {
+        GregorianCalendar now = new GregorianCalendar(),
+                start = new GregorianCalendar(2014,1,1);
+        long diff = now.getTime().getTime() - start.getTime().getTime();
+        long sec = TimeUnit.MILLISECONDS.toSeconds(diff);
+        return (int)sec;
+    }
     public Boolean isUserinfo(String name, String pwd) {
         try {
             String str = "select * from tb_user where name=? and password=?";

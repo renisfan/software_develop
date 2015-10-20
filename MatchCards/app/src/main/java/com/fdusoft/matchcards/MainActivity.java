@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +19,83 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.os.Handler;
+import android.os.Message;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_GAME = 0;
 
-    private String username;
+    private static String username = null;
 
-    private GameFragment currentGameFragment;
+    private GameFragment currentGameFragment = null;
     private FriendFragment currenFriendFragment;
+
+    private SQLiteDatabase db;
+
+    private String TAG = "myLogs";
+
+    private Timer timer;
+    private int gap = 300,freqence = 1,maxChance = 5;
+
+    public void addChance() {
+        String str = "select * from tb_chance where name=?";
+        Cursor cursor = db.rawQuery(str, new String[]{username});
+        cursor.moveToFirst();
+        int chance = cursor.getInt(cursor.getColumnIndex("chance"));
+        int now = getTime(), pre = cursor.getInt(cursor.getColumnIndex("time")), time = now - pre;
+        Log.e(TAG,"MainActivity " + username + " "+chance+" "+time);
+        if (chance >= maxChance) {
+            Log.e(TAG,"MainActivity Time " + now);
+            db.execSQL("update tb_chance set time=? where name=?", new Object[]{now,username});
+        }
+        else if (time>=gap) {
+            Log.e(TAG,"MainActivity Time " + now);
+            chance += time / gap;
+            if (chance > maxChance) chance = maxChance;
+            if (currentGameFragment != null) currentGameFragment.awardGameChance(chance);
+            else db.execSQL("update tb_chance set chance=?,time=? where name=?", new Object[]{chance,now,username});
+        }
+    }
+    public final Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    addChance();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private TimerTask task = new TimerTask(){
+        public void run() {
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
+    };
+    public void startTimer() {
+        timer = new Timer(true);
+        timer.schedule(task, 0, freqence*1000);
+    }
+    public void cancelTimer() {
+        timer.cancel();
+    }
+
+    public int getTime() {
+        GregorianCalendar now = new GregorianCalendar(),
+                start = new GregorianCalendar(2014,1,1);
+        long diff = now.getTime().getTime() - start.getTime().getTime();
+        long sec = TimeUnit.MILLISECONDS.toSeconds(diff);
+        return (int)sec;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +103,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        db = SQLiteDatabase.openOrCreateDatabase(MainActivity.this.getFilesDir().toString()
+                + "/test.dbs", null);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         username = bundle.getString("USER_NAME");
-
+        startTimer();
     }
 
     // Override finish() to make it pop confirmation window before user logout
@@ -68,6 +140,8 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        username = null;
+                        cancelTimer();
                         MainActivity.super.finish();
                     }
                 })
@@ -123,14 +197,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_game) {
-            currentGameFragment = GameFragment.getGameFragment(username);
+            currentGameFragment = GameFragment.getGameFragment(username,this);
             getFragmentManager().beginTransaction().replace(R.id.container,
                     currentGameFragment).commit();
         } else if (id == R.id.nav_friend) {
+            currentGameFragment = null;
             currenFriendFragment = FriendFragment.getFriendFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
                     currenFriendFragment).commit();
         } else if (id == R.id.nav_group) {
+            currentGameFragment = null;
             getFragmentManager().beginTransaction().replace(R.id.container,
                     new GroupFragment()).commit();
         }
@@ -155,4 +231,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+        Log.e(TAG,"MainActivity.onDestroy()");
+    }
 }
