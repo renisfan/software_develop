@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private String TAG = "myLogs";
 
     private Timer timer;
-    private int gap = 300,freqence = 1,maxChance = 1000;
+    private int gap = 300,freqence = 1,maxChance = 5;
 
     public void addChance() {
         String str = "select * from tb_chance where name=?";
