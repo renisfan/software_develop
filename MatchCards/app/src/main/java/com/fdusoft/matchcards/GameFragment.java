@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
+import android.os.Message;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Fragment for game interface
@@ -19,13 +23,36 @@ public class GameFragment extends Fragment {
 
     private int gameChance = 5;
     private int highScore = 0;
+    private int status = 0;
 
     private TextView gameChanceHint;
     private TextView highScoreHint;
 
     private SQLiteDatabase db;
 
-    /**
+    private final Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    updateGameChance(gameChance+1);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private TimerTask task = new TimerTask(){
+        public void run() {
+            status = 0;
+            Message message = new Message();
+            message.what = 1;
+            handler.sendMessage(message);
+        }
+    };
+    private Timer timer;
+    private int gap = 300000;
+
+        /**
      * Create game fragment for the given user.
      * @param username Player's username.
      */
@@ -65,6 +92,9 @@ public class GameFragment extends Fragment {
         highScoreHint = (TextView) view.findViewById(R.id.high_score_hint);
         highScoreHint.setText(String.format(getString(R.string.high_score), highScore));
 
+        timer = new Timer(true);
+        timer.schedule(task, gap, gap);
+
         Button startGameButton = (Button) view.findViewById(R.id.start_game);
         startGameButton.setOnClickListener(new View.OnClickListener() {
 
@@ -74,10 +104,9 @@ public class GameFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "游戏次数不足!", Toast.LENGTH_SHORT).show();
                 } else {
-                    updateGameChance(gameChance-1);
-                    gameChanceHint.setText(
-                            String.format(getString(R.string.game_chance),
-                                    gameChance));
+                    status = 1;
+                    updateGameChance(gameChance - 1);
+                    gameChanceHint.setText(String.format(getString(R.string.game_chance), gameChance));
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), GameActivity.class);
                     getActivity().startActivityForResult(intent, MainActivity.REQUEST_GAME);
@@ -85,5 +114,11 @@ public class GameFragment extends Fragment {
             }
         });
         return view;
+    }
+    public void onStop() {
+        if (status==0) {
+            timer.cancel();
+        }
+        super.onStop();
     }
 }
