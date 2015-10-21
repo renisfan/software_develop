@@ -65,6 +65,11 @@ public class GameFragment extends Fragment {
         cursor.moveToFirst();
         this.username = username;
         this.gameChance = cursor.getInt(cursor.getColumnIndex("chance"));
+
+        //GET HIGHSCORE
+        cursor = db.rawQuery("select * from tb_score where name=?",new String[]{username});
+        cursor.moveToFirst();
+        this.highScore = cursor.getInt(cursor.getColumnIndex("highScore"));
     }
 
     public void awardGameChance(int newGameChance) {
@@ -84,6 +89,7 @@ public class GameFragment extends Fragment {
         highScore = Math.max(highScore, newScore);
         // TODO: update user database
         highScoreHint.setText(String.format(getString(R.string.high_score), highScore));
+        db.execSQL("update tb_score set highScore=? where name=?",new Object[]{newScore,username});
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
