@@ -66,7 +66,6 @@ public class LoginActivity extends Activity {
         }catch(SQLiteException e) {
         }
 
-
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
 
