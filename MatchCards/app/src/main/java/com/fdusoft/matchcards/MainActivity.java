@@ -31,11 +31,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_GAME = 0;
+    public static final int REQUEST_GROUP = 1;
 
     private static String username = null;
 
     private GameFragment currentGameFragment = null;
-    private FriendFragment currenFriendFragment;
+    private FriendFragment currentFriendFragment;
+    private GroupFragment currentGroupFragment;
 
     private SQLiteDatabase db;
 
@@ -202,13 +204,14 @@ public class MainActivity extends AppCompatActivity
                     currentGameFragment).commit();
         } else if (id == R.id.nav_friend) {
             currentGameFragment = null;
-            currenFriendFragment = FriendFragment.getFriendFragment(username);
+            currentFriendFragment = FriendFragment.getFriendFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
-                    currenFriendFragment).commit();
+                    currentFriendFragment).commit();
         } else if (id == R.id.nav_group) {
             currentGameFragment = null;
+            currentGroupFragment = GroupFragment.getGroupFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
-                    new GroupFragment()).commit();
+                    currentGroupFragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
