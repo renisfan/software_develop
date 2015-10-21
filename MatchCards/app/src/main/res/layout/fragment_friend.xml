@@ -9,28 +9,28 @@
     tools:context="com.fdusoft.matchcards.MainActivity$PlaceholderFragment" >
 
     <TextView
-        android:id="@+id/testfriend"
+        android:id="@+id/myfriend_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Friends" />
+        android:text="@string/friend_section" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
         android:id="@+id/add_friend_text"
-        android:layout_below="@+id/testfriend"
+        android:layout_below="@+id/myfriend_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/add_frinend_button"
-        android:layout_toStartOf="@+id/add_frinend_button" />
+        android:layout_toStartOf="@+id/add_frinend_button"
+        android:hint="@string/username_hint" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="添加好友"
+        android:text="@string/action_add_friend"
         android:id="@+id/add_frinend_button"
         android:layout_alignBottom="@+id/add_friend_text"
         android:layout_alignParentRight="true"

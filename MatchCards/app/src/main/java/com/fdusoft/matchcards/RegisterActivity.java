@@ -45,12 +45,17 @@ public class RegisterActivity extends Activity {
                 String name = ename.getText().toString();
                 String password = epassword.getText().toString();
 
-                if (!(ename.getText().toString().equals("") || epassword.getText().toString()
-                        .equals("") || epassword2.getText().toString().equals(""))) {
+                if (!(ename.getText().toString().isEmpty() || epassword.getText().toString()
+                        .isEmpty() || epassword2.getText().toString().isEmpty())) {
 
                     if (epassword.getText().toString().equals(epassword2.getText().toString())) {
 
                         if (addUser(name, password)) {
+                            // For debug use: clear former friend data to avoid problems
+                            try {
+                                db.execSQL("delete from tb_friend_"+name);
+                            } catch (Exception e) {}
+
                             Toast.makeText(RegisterActivity.this,
                                     getString(R.string.register_success),
                                     Toast.LENGTH_SHORT).show();
@@ -84,6 +89,8 @@ public class RegisterActivity extends Activity {
         String str = "insert into tb_user values(?,?) ";
         try {
             db.execSQL(str, new String[] { name, password });
+            str = "insert into tb_score values(?,?)";
+            db.execSQL(str, new String[] { name, "0"});
             return true;
         } catch (Exception e) {
             try {

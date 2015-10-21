@@ -1,11 +1,11 @@
 package com.fdusoft.matchcards;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Fragment template for My Friends
+ * Fragment for My Friends
  */
 public class FriendFragment extends Fragment {
 
@@ -37,11 +37,7 @@ public class FriendFragment extends Fragment {
         try{
             String str="select * from tb_user where name=?";
             Cursor cursor = db.rawQuery(str, new String []{username});
-            if(cursor.getCount()<=0){
-                return false;
-            }else{
-                return true;
-            }
+            return cursor.getCount()>0;
 
         }catch(SQLiteException e){
         }
@@ -73,7 +69,7 @@ public class FriendFragment extends Fragment {
             if (cursor.getCount() == 0)
                 db.execSQL(str, new String[] { friendName });
         } catch (Exception e) {
-            System.out.println("[ERROR!!!]"+e.getMessage());
+            Log.e("MatchCards", "ERROR", e);
         }
     }
 
@@ -97,7 +93,7 @@ public class FriendFragment extends Fragment {
                 // TODO : added user should get a notification
 
                 String friendName = addFriendText.getText().toString();
-                if (friendName == myName) {
+                if (friendName.equals(myName)) {
                     Toast.makeText(getActivity().getApplicationContext(), "不能添加自己为好友！",
                             Toast.LENGTH_SHORT).show();
                 }
