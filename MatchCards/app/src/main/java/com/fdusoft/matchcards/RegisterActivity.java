@@ -3,6 +3,7 @@ package com.fdusoft.matchcards;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,16 @@ public class RegisterActivity extends Activity {
                             try {
                                 db.execSQL("delete from tb_friend_"+name);
                             } catch (Exception e) {}
+
+                            //create message table
+                            try {
+                                db.execSQL("create table "+name+"_oldMessage( detail varchar(200), sender varchar(20))");
+                                db.execSQL("create table " + name + "_newMessage( detail varchar(200), sender varchar(20))");
+                                db.execSQL("insert into "+name+"_oldMessage values(?,?)",new Object[]{"欢迎来到游戏世界 ! ","GM"});
+                                db.execSQL("insert into "+name+"_oldMessage values(?,?)",new Object[]{"请及时充值 ！","GM"});
+                            }catch(SQLiteException e){
+                            }
+
 
                             Toast.makeText(RegisterActivity.this,
                                     getString(R.string.register_success),
