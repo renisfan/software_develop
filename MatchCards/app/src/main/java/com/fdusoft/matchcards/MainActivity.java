@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final int REQUEST_GAME = 0;
-    public static final int REQUEST_GROUP = 0;
+    public static final int REQUEST_GROUP = 1;
 
     private static String username = null;
 

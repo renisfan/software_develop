@@ -8,13 +8,61 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.fdusoft.matchcards.MainActivity$PlaceholderFragment" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/join_group_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/join_group_button"
+            android:layout_toStartOf="@+id/join_group_button"
+            android:hint="@string/groupname_hint" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_join_group"
+            android:id="@+id/join_group_button"
+            android:layout_alignBottom="@+id/join_group_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/create_group_text"
+            android:hint="@string/groupname_hint"
+            android:layout_below="@+id/join_group_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/join_group_button"
+            android:layout_toStartOf="@+id/join_group_button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_create_group"
+            android:id="@+id/create_group_button"
+            android:layout_below="@+id/join_group_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/create_group_text" />
+
         <ExpandableListView
             android:id="@+id/android:list"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_marginTop="100dp"/>
+    </RelativeLayout>
+
 </RelativeLayout>

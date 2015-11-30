@@ -4,27 +4,109 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.app.ExpandableListActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GroupActivity extends ExpandableListActivity {
+
+    private SQLiteDatabase db;
     /**
      * 创建一级条目容器
      */
-    List<Map<String, String>> gruops = new ArrayList<Map<String, String>>();
+    List<Map<String, String>> groups;
     /**
      * 存放内容, 以便显示在列表中
      */
-    List<List<Map<String, String>>> childs = new ArrayList<List<Map<String, String>>>();
+    List<List<Map<String, String>>> childs;
+
+    private TextView createGroupText;
+    private TextView joinGroupText;
+
+    private String myName;
+
+    private boolean groupExists(String groupName){
+        try{
+            String str="select * from tb_group_"+groupName;
+            Cursor cursor = db.rawQuery(str, null);
+            return cursor.getCount()>0;
+        }catch(SQLiteException e){
+        }
+        return false;
+    }
+
+    private void joinOrCreateGroup(String groupName) {
+        db.execSQL(String.format("create table IF NOT EXISTS tb_group_%s ( member varchar(30) primary key)", groupName));
+        String str = String.format("insert into tb_group_%s values(?) ", groupName);
+        try {
+            String str2 = String.format("select * from tb_group_%s where member=?", groupName);
+            Cursor cursor = db.rawQuery(str2, new String[]{this.myName});
+
+            if (cursor.getCount() == 0) {
+                db.execSQL(str, new String[]{this.myName});
+                db.execSQL(String.format("create table IF NOT EXISTS tb_%s_group ( groupName varchar(30) primary key)", this.myName));
+                String str3 = String.format("insert into tb_%s_group values(?)", this.myName);
+                db.execSQL(str3, new String[]{groupName});
+            }
+        } catch (Exception e) {
+            Log.e("MatchCards", "ERROR", e);
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getExtras();
+        this.myName = bundle.getString("myName");
         setContentView(R.layout.fragment_group);
+        db = SQLiteDatabase.openOrCreateDatabase(GroupActivity.this.getFilesDir().toString()
+                + "/test.dbs", null);
+
+        joinGroupText = (TextView) findViewById(R.id.join_group_text);
+        createGroupText = (TextView) findViewById(R.id.create_group_text);
+
+        final Button joinGroupButton = (Button) findViewById(R.id.join_group_button);
+        joinGroupButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String groupName = joinGroupText.getText().toString();
+                if (!groupExists(groupName)) {
+                    Toast.makeText(getApplicationContext(), "不存在该群组！",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    joinOrCreateGroup(groupName);
+                    setListData();
+                }
+            }
+        });
+
+        final Button createGroupButton = (Button) findViewById(R.id.create_group_button);
+        createGroupButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String groupName = createGroupText.getText().toString();
+                if (groupExists(groupName)) {
+                    Toast.makeText(getApplicationContext(), "已存在该群组！",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    joinOrCreateGroup(groupName);
+                    setListData();
+                }
+            }
+        });
+
         setListData();
     }
 
@@ -32,43 +114,31 @@ public class GroupActivity extends ExpandableListActivity {
      * 设置列表内容
      */
     public void setListData() {
-        // 创建二个一级条目标题
-        Map<String, String> title_1 = new HashMap<String, String>();
-        Map<String, String> title_2 = new HashMap<String, String>();
-        Map<String, String> title_3 = new HashMap<String, String>();
-        title_1.put("group", "群组1");
-        title_2.put("group", "群组2");
-        gruops.add(title_1);
-        gruops.add(title_2);
+        groups = new ArrayList<Map<String, String>>();
+        childs = new ArrayList<List<Map<String, String>>>();
 
-        // 创建二级条目内容
-        // 内容一
-        Map<String, String> title_1_content_1 = new HashMap<String, String>();
-        Map<String, String> title_1_content_2 = new HashMap<String, String>();
-        Map<String, String> title_1_content_3 = new HashMap<String, String>();
-        title_1_content_1.put("child", "a1");
-        title_1_content_2.put("child", "a2");
-        title_1_content_3.put("child", "a3");
+        try {
+            String str = "select * from tb_"+this.myName+"_group";
+            Cursor cursor = db.rawQuery(str, null);
+            while (cursor.moveToNext()) {
+                //get a group which the user belongs to
+                Map<String, String> title = new HashMap<String, String>();
+                String groupName = cursor.getString(cursor.getColumnIndex("groupName"));
+                title.put("group", groupName);
+                groups.add(title);
 
-        List<Map<String, String>> childs_1 = new ArrayList<Map<String, String>>();
-        childs_1.add(title_1_content_1);
-        childs_1.add(title_1_content_2);
-        childs_1.add(title_1_content_3);
-
-        // 内容二
-        Map<String, String> title_2_content_1 = new HashMap<String, String>();
-        Map<String, String> title_2_content_2 = new HashMap<String, String>();
-        Map<String, String> title_2_content_3 = new HashMap<String, String>();
-        title_2_content_1.put("child", "b1");
-        title_2_content_2.put("child", "b2");
-        title_2_content_3.put("child", "b3");
-        List<Map<String, String>> childs_2 = new ArrayList<Map<String, String>>();
-        childs_2.add(title_2_content_1);
-        childs_2.add(title_2_content_2);
-        childs_2.add(title_2_content_3);
-
-        childs.add(childs_1);
-        childs.add(childs_2);
+                //get members of the group
+                String str2 = "select * from tb_"+"group_"+groupName;
+                Cursor cursor2 = db.rawQuery(str2, null);
+                List<Map<String, String>> child = new ArrayList<Map<String, String>>();
+                while (cursor2.moveToNext()) {
+                    Map<String, String> title_content = new HashMap<String, String>();
+                    title_content.put("child", cursor2.getString(cursor2.getColumnIndex("member")));
+                    child.add(title_content);
+                }
+                childs.add(child);
+            }
+        } catch (Exception e) {}
 
         /**
          * 创建ExpandableList的Adapter容器 参数: 1.上下文 2.一级集合 3.一级样式文件 4. 一级条目键值
@@ -76,7 +146,7 @@ public class GroupActivity extends ExpandableListActivity {
          *
          */
         SimpleExpandableListAdapter sela = new SimpleExpandableListAdapter(
-                this, gruops, R.layout.activity_group_groups, new String[] { "group" },
+                this, groups, R.layout.activity_group_groups, new String[] { "group" },
                 new int[] { R.id.textGroup }, childs, R.layout.activity_group_childs,
                 new String[] { "child" }, new int[] { R.id.textChild });
         // 加入列表
@@ -92,7 +162,7 @@ public class GroupActivity extends ExpandableListActivity {
         Toast.makeText(
                 GroupActivity.this,
                 "您选择了"
-                        + gruops.get(groupPosition).toString()
+                        + groups.get(groupPosition).toString()
                         + "子编号"
                         + childs.get(groupPosition).get(childPosition)
                         .toString(), Toast.LENGTH_SHORT).show();
