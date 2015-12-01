@@ -21,6 +21,7 @@
     <string name="action_confirm">确定</string>
     <string name="action_cancel">取消</string>
     <string name="username_hint">输入用户名</string>
+    <string name="groupname_hint">输入群组名</string>
     <string name="password_hint">输入密码</string>
     <string name="game_chance">剩余游戏次数:%1$d</string>
     <string name="high_score">我的最高分:%1$d</string>
@@ -28,5 +29,7 @@
     <string name="game_score">分数:%1$d</string>
     <string name="game_level">等级:%1$d　限时:%2$d秒</string>
     <string name="action_add_friend">添加好友</string>
+    <string name="action_create_group">创建群组</string>
+    <string name="action_join_group">加入群组</string>
     <string name="action_settings">设置</string>
 </resources>

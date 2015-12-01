@@ -31,10 +31,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".GroupActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".MessageActivity"
             android:label="@string/app_name" >
         </activity>

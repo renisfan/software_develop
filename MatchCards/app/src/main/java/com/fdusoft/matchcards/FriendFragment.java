@@ -85,7 +85,7 @@ public class FriendFragment extends Fragment {
 
         addFriendText = (TextView) view.findViewById(R.id.add_friend_text);
 
-        final Button addFriendButton = (Button) view.findViewById(R.id.add_frinend_button);
+        final Button addFriendButton = (Button) view.findViewById(R.id.add_friend_button);
         addFriendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
