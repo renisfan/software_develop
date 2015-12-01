@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +69,21 @@ public class GroupFragment extends Fragment {
         }
     }
 
+    class Score implements Comparable<Score> {
+        int score;
+        String name;
+
+        public Score(int score, String name) {
+            this.score = score;
+            this.name = name;
+        }
+
+        @Override
+        public int compareTo(Score o) {
+            return score < o.score ? 1 : score > o.score ? -1 : 0;
+        }
+    }
+
     private SavedTabsListAdapter getAdapter(){
         SavedTabsListAdapter ret = new SavedTabsListAdapter();
         ArrayList<String> groups= new ArrayList<String>();
@@ -83,13 +100,31 @@ public class GroupFragment extends Fragment {
                 //get members of the group
                 String str2 = "select * from tb_"+"group_"+groupName;
                 Cursor cursor2 = db.rawQuery(str2, null);
-                ArrayList<String> child = new ArrayList<String>();
+                List<Score> scores = new ArrayList<Score>();
                 while (cursor2.moveToNext()) {
-                    child.add( cursor2.getString(cursor2.getColumnIndex("member")) );
+                    String memberName = cursor2.getString(cursor2.getColumnIndex("member"));
+
+                    String strScore = "select * from tb_score where name=?";
+                    Cursor cursorScore = db.rawQuery(strScore, new String[]{memberName});
+
+                    int highScore = 0;
+                    if (cursorScore.moveToFirst())
+                        highScore = cursorScore.getInt(cursorScore.getColumnIndex("highScore"));
+
+                    scores.add(new Score(highScore, memberName));
+
                 }
+
+                Collections.sort(scores);
+                ArrayList<String> child = new ArrayList<String>();
+
+                for (Score temp : scores) {
+                    child.add(temp.name + "    score: " + temp.score);
+                }
+
                 children.add(child);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {Log.e("ERROR", e.toString());}
 
         ret.setAdapter(groups, children);
         return ret;
@@ -160,7 +195,7 @@ public class GroupFragment extends Fragment {
         @Override
         public int getChildrenCount(int i) {
                 return children.get(i).size();
-            }
+        }
 
         @Override
         public Object getGroup(int i) {
