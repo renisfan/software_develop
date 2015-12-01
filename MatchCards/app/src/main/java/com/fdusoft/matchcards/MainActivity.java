@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity
         cursor.moveToFirst();
         int chance = cursor.getInt(cursor.getColumnIndex("chance"));
         int now = getTime(), pre = cursor.getInt(cursor.getColumnIndex("time")), time = now - pre;
-        Log.d(LOGTAG, "MainActivity " + username + " "+chance+" "+time);
-        Log.d(LOGTAG, "MainActivity Time " + now);
+        //Log.d(LOGTAG, "MainActivity " + username + " "+chance+" "+time);
+        //Log.d(LOGTAG, "MainActivity Time " + now);
         if (chance >= MAX_CHANCE) {
             recovering = false;
         }
@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity
                         db.execSQL("update tb_chance set chance=? where name=?", new Object[]{chance, username});
                     }
                     setChanceRecoverTime(now-(time%GAP));
-                    Log.d(LOGTAG, "Recover time set to " + (now-(time%GAP)) );
+                    //Log.d(LOGTAG, "Recover time set to " + (now-(time%GAP)) );
                 }
             } else {
                 recovering = true;
                 setChanceRecoverTime(now);
-                Log.d(LOGTAG, "Recover time set to " + now);
+                //Log.d(LOGTAG, "Recover time set to " + now);
             }
         }
     }
