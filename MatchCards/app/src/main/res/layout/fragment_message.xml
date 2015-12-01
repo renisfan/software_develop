@@ -79,6 +79,10 @@
         android:layout_alignStart="@id/received_message_hint"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="5dp"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:layout_alignRight="@+id/send_button"
+        android:layout_alignEnd="@+id/send_button" />
 
 </RelativeLayout>
