@@ -19,20 +19,20 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/join_group_text"
+        android:id="@+id/add_friend_text"
         android:layout_below="@+id/myfriend_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/join_group_button"
-        android:layout_toStartOf="@+id/join_group_button"
+        android:layout_toLeftOf="@+id/add_friend_button"
+        android:layout_toStartOf="@+id/add_friend_button"
         android:hint="@string/username_hint" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_add_friend"
-        android:id="@+id/join_group_button"
-        android:layout_alignBottom="@+id/join_group_text"
+        android:id="@+id/add_friend_button"
+        android:layout_alignBottom="@+id/add_friend_text"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -41,10 +41,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/friend_list"
-        android:layout_below="@+id/join_group_text"
+        android:layout_below="@+id/add_friend_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/join_group_button"
-        android:layout_alignEnd="@+id/join_group_button" />
+        android:layout_alignRight="@+id/add_friend_button"
+        android:layout_alignEnd="@+id/add_friend_button" />
 
 </RelativeLayout>

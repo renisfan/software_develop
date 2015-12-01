@@ -1,18 +1,15 @@
 
 package com.fdusoft.matchcards;
 
-import android.app.ExpandableListActivity;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -21,10 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class GroupFragment extends Fragment {
 
@@ -139,10 +133,10 @@ public class GroupFragment extends Fragment {
         elv = (ExpandableListView) view.findViewById(R.id.list);
         elv.setAdapter(getAdapter());
 
-        joinGroupText = (TextView) view.findViewById(R.id.join_group_text);
+        joinGroupText = (TextView) view.findViewById(R.id.add_friend_text);
         createGroupText = (TextView) view.findViewById(R.id.create_group_text);
 
-        final Button joinGroupButton = (Button) view.findViewById(R.id.join_group_button);
+        final Button joinGroupButton = (Button) view.findViewById(R.id.add_friend_button);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

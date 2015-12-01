@@ -1,7 +1,6 @@
 package com.fdusoft.matchcards;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,10 +71,10 @@ public class GroupActivity extends ExpandableListActivity {
         db = SQLiteDatabase.openOrCreateDatabase(GroupActivity.this.getFilesDir().toString()
                 + "/test.dbs", null);
 
-        joinGroupText = (TextView) findViewById(R.id.join_group_text);
+        joinGroupText = (TextView) findViewById(R.id.add_friend_text);
         createGroupText = (TextView) findViewById(R.id.create_group_text);
 
-        final Button joinGroupButton = (Button) findViewById(R.id.join_group_button);
+        final Button joinGroupButton = (Button) findViewById(R.id.add_friend_button);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
