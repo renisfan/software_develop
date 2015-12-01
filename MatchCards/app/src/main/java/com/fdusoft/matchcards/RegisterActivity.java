@@ -59,10 +59,12 @@ public class RegisterActivity extends Activity {
 
                             //create message table
                             try {
-                                db.execSQL("create table "+name+"_oldMessage( detail varchar(200), sender varchar(20))");
-                                db.execSQL("create table " + name + "_newMessage( detail varchar(200), sender varchar(20))");
+                                db.execSQL("create table " + name + "_oldMessage( detail varchar(200), sender varchar(20))");
+                            }catch(SQLiteException e) {
+                            }
+                            try{
                                 db.execSQL("insert into "+name+"_oldMessage values(?,?)",new Object[]{"欢迎来到游戏世界 ! ","GM"});
-                                db.execSQL("insert into "+name+"_oldMessage values(?,?)",new Object[]{"请及时充值 ！","GM"});
+                                db.execSQL("insert into " + name + "_oldMessage values(?,?)", new Object[]{"请及时充值 ！", "GM"});
                             }catch(SQLiteException e){
                             }
 

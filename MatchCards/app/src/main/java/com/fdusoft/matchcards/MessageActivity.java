@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.text.Html;
@@ -34,6 +37,8 @@ public class MessageActivity extends Activity {
     private TextView myTextView;
     private SQLiteDatabase db;
     private static String username = null;
+    private EditText ename;
+    private EditText econtent;
 
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize layout
@@ -75,6 +80,56 @@ public class MessageActivity extends Activity {
 
 
             myTextView.setText(Html.fromHtml(str));
+
+            query = "delete  from "+username+"_oldMessage";
+            db.execSQL(query);
+
         }
+
+        ename = (EditText)findViewById(R.id.username);
+        econtent = (EditText)findViewById(R.id.content);
+        Button messageButton = (Button) findViewById(R.id.send);
+
+        db = SQLiteDatabase.openOrCreateDatabase(MessageActivity.this.getFilesDir().toString()
+                + "/test.dbs", null);
+
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = ename.getText().toString();
+                String content = econtent.getText().toString();
+
+                if (!(ename.getText().toString().isEmpty() || econtent.getText().toString()
+                        .isEmpty())) {
+
+
+                    try {
+                        db.execSQL("create table " + name + "_oldMessage( detail varchar(200), sender varchar(20))");
+                    } catch (SQLiteException e) {
+                    }
+
+                    try {
+                        db.execSQL("insert into " + name + "_oldMessage values(?,?)", new Object[]{content, username});
+                    } catch (SQLiteException e) {
+                    }
+
+
+                    Toast.makeText(MessageActivity.this,
+                            getString(R.string.send_success),
+                            Toast.LENGTH_SHORT).show();
+
+                } else {
+                    new AlertDialog.Builder(MessageActivity.this)
+                            .setTitle("ERROR")
+                            .setMessage(getString(R.string.error_message_empty))
+                            .setPositiveButton(getString(R.string.action_confirm), null)
+                            .show();
+                }
+            }
+
+
+
+        });
     }
 }
