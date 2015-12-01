@@ -133,10 +133,10 @@ public class GroupFragment extends Fragment {
         elv = (ExpandableListView) view.findViewById(R.id.list);
         elv.setAdapter(getAdapter());
 
-        joinGroupText = (TextView) view.findViewById(R.id.add_friend_text);
+        joinGroupText = (TextView) view.findViewById(R.id.join_group_text);
         createGroupText = (TextView) view.findViewById(R.id.create_group_text);
 
-        final Button joinGroupButton = (Button) view.findViewById(R.id.add_friend_button);
+        final Button joinGroupButton = (Button) view.findViewById(R.id.join_group_button);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
