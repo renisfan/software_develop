@@ -8,43 +8,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.fdusoft.matchcards.MainActivity$PlaceholderFragment" >
 
-    <TextView
-        android:id="@+id/myfriend_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/friend_section" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/add_friend_text"
-        android:layout_below="@+id/myfriend_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/add_frinend_button"
-        android:layout_toStartOf="@+id/add_frinend_button"
+        android:layout_toLeftOf="@+id/add_friend_button"
+        android:layout_toStartOf="@+id/add_friend_button"
         android:hint="@string/username_hint" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_add_friend"
-        android:id="@+id/add_frinend_button"
+        android:id="@+id/add_friend_button"
         android:layout_alignBottom="@+id/add_friend_text"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/my_friend_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/friend_section"
+        android:layout_below="@id/add_friend_text"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/friend_list"
-        android:layout_below="@+id/add_friend_text"
+        android:layout_below="@+id/my_friend_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/add_frinend_button"
-        android:layout_alignEnd="@+id/add_frinend_button" />
+        android:layout_alignRight="@+id/add_friend_button"
+        android:layout_alignEnd="@+id/add_friend_button"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

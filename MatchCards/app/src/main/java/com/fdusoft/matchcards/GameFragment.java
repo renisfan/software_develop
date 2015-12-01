@@ -70,7 +70,7 @@ public class GameFragment extends Fragment {
     public void updateHighScore(int newScore) {
         highScore = Math.max(highScore, newScore);
         highScoreHint.setText(String.format(getString(R.string.high_score), highScore));
-        db.execSQL("update tb_score set highScore=? where name=?", new Object[]{newScore, username});
+        db.execSQL("update tb_score set highScore=? where name=?", new Object[]{highScore, username});
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

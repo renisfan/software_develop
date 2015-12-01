@@ -8,6 +8,8 @@
             android:title="@string/friend_section" />
         <item android:id="@+id/nav_group"
             android:title="@string/group_section" />
+        <item android:id="@+id/nav_message"
+            android:title="我的消息" />
     </group>
 
 </menu>

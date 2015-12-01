@@ -98,7 +98,13 @@ public class GameActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO: implement share
-                        waiting = false;
+                        Intent intent=new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+                        intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.share_text), score));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(Intent.createChooser(intent, getTitle()));
+                        showResultDialog();
                     }
                 })
                 .setCancelable(false).show();
