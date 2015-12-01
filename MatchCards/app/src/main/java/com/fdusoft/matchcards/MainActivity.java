@@ -35,14 +35,13 @@ public class MainActivity extends AppCompatActivity
     private static final String LOGTAG = "MatchCards";
 
     public static final int REQUEST_GAME = 0;
-    public static final int REQUEST_GROUP = 1;
 
     private static final int MAX_CHANCE = 5;
     private static final int GAP = 300;
     private static final int FREQUENCY = 1;
+    private static final int ALERT_TIME = 3600;
 
     private static String username = null;
-    private boolean recovering = false;
 
     private GameFragment currentGameFragment = null;
     private FriendFragment currentFriendFragment = null;
@@ -50,6 +49,10 @@ public class MainActivity extends AppCompatActivity
     private MessageFragment currentMessageFragment = null;
 
     private SQLiteDatabase db;
+
+    private int startTime;
+    private boolean resetStartTime = true;
+    private boolean recovering = true;
 
     private Timer timer;
     private TimerHandler handler;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         cursor.moveToFirst();
         int chance = cursor.getInt(cursor.getColumnIndex("chance"));
         int now = getTime(), pre = cursor.getInt(cursor.getColumnIndex("time")), time = now - pre;
-        //Log.d(LOGTAG, "MainActivity " + username + " "+chance+" "+time);
+        Log.d(LOGTAG, username + " "+pre+" "+time);
         //Log.d(LOGTAG, "MainActivity Time " + now);
         if (chance >= MAX_CHANCE) {
             recovering = false;
@@ -75,15 +78,25 @@ public class MainActivity extends AppCompatActivity
                         db.execSQL("update tb_chance set chance=? where name=?", new Object[]{chance, username});
                     }
                     setChanceRecoverTime(now-(time%GAP));
-                    //Log.d(LOGTAG, "Recover time set to " + (now-(time%GAP)) );
+                    Log.d(LOGTAG, "Recover time set to " + (now-(time%GAP)) );
                 }
             } else {
                 recovering = true;
                 setChanceRecoverTime(now);
-                //Log.d(LOGTAG, "Recover time set to " + now);
+                Log.d(LOGTAG, "Recover time set to " + now);
             }
         }
     }
+
+    public void checkPlayTime() {
+        int playTime = getTime() - startTime;
+        if ((playTime % ALERT_TIME == 0) && (playTime / ALERT_TIME > 0)) {
+            new AlertDialog.Builder(MainActivity.this).setTitle("游戏时长提醒")
+                    .setMessage(String.format(getString(R.string.alert_play_time), playTime / ALERT_TIME))
+                    .setPositiveButton("好", null).show();
+        }
+    }
+
     private static class TimerHandler extends Handler {
 
         private WeakReference<MainActivity> mOuter;
@@ -99,6 +112,7 @@ public class MainActivity extends AppCompatActivity
                     MainActivity activity = mOuter.get();
                     if (activity!=null) {
                         activity.checkChance();
+                        activity.checkPlayTime();
                     }
                     break;
             }
@@ -169,6 +183,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (resetStartTime) {
+            startTime = getTime();
+            resetStartTime = false;
+        }
         checkChance();
         startTimer();
     }
@@ -176,6 +194,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         timer.cancel();
+        resetStartTime = true;
         super.onPause();
     }
 
@@ -288,6 +307,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        resetStartTime = false;
         if (requestCode == REQUEST_GAME && resultCode == RESULT_OK) {
             int score = data.getIntExtra("GAME_SCORE", 0);
             currentGameFragment.updateHighScore(score);

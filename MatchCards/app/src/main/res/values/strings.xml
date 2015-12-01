@@ -41,5 +41,6 @@
     <string name="action_join_group">加入群组</string>
     <string name="group_not_exist">不存在该群组！</string>
     <string name="group_already_exist">已存在该群组！</string>
+    <string name="alert_play_time">您已连续游戏超过%1$d小时，请注意健康！</string>
     <string name="action_settings">设置</string>
 </resources>

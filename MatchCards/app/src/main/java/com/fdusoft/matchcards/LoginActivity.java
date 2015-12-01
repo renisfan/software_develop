@@ -2,18 +2,17 @@ package com.fdusoft.matchcards;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-import java.util.GregorianCalendar;
-import 	java.util.concurrent.TimeUnit;
 
-import java.io.File;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends Activity {
 
@@ -86,9 +85,6 @@ public class LoginActivity extends Activity {
                         if (isUserinfo(username, password) == true) {
                             if (db.rawQuery("select * from tb_chance where name=?",new String[]{username}).getCount()==0) {
                                 db.execSQL("insert into tb_chance values(?,?,?)",new Object[]{username,5,getTime()});
-                            }
-                            else {
-                                db.execSQL("update tb_chance set time=? where name=?", new Object[]{getTime(),username});
                             }
                             Intent intent = new Intent();
                             // Package user info and pass to MainActivity
