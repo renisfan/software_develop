@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private GameFragment currentGameFragment = null;
     private FriendFragment currentFriendFragment = null;
     private GroupFragment currentGroupFragment = null;
+    private MessageFragment currentMessageFragment = null;
 
     private SQLiteDatabase db;
 
@@ -257,18 +258,28 @@ public class MainActivity extends AppCompatActivity
                     currentGameFragment).commit();
             currentFriendFragment = null;
             currentGroupFragment = null;
+            currentMessageFragment = null;
         } else if (id == R.id.nav_friend) {
             currentFriendFragment = FriendFragment.getFriendFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
                     currentFriendFragment).commit();
             currentGameFragment = null;
             currentGroupFragment = null;
+            currentMessageFragment = null;
         } else if (id == R.id.nav_group) {
             currentGroupFragment = GroupFragment.getGroupFragment(username);
             getFragmentManager().beginTransaction().replace(R.id.container,
                     currentGroupFragment).commit();
             currentGameFragment = null;
             currentFriendFragment = null;
+            currentMessageFragment = null;
+        } else if (id == R.id.nav_message) {
+            currentMessageFragment = MessageFragment.getMessageFragment(username);
+            getFragmentManager().beginTransaction().replace(R.id.container,
+                    currentMessageFragment).commit();
+            currentGameFragment = null;
+            currentFriendFragment = null;
+            currentGroupFragment = null;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
