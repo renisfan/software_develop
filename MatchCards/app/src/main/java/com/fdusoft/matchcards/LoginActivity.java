@@ -38,13 +38,13 @@ public class LoginActivity extends Activity {
         Button registerButton = (Button) findViewById(R.id.register_button);
 
         //delete former database
-        try {
+     /*   try {
            String myPath = LoginActivity.this.getFilesDir().toString()
                    + "/test.dbs";
            SQLiteDatabase.deleteDatabase(new File(myPath));
         }catch(SQLiteException e) {
 
-        }
+        } */
 
         db = SQLiteDatabase.openOrCreateDatabase(LoginActivity.this.getFilesDir().toString()
                 + "/test.dbs", null);

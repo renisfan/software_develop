@@ -15,9 +15,11 @@
     <string name="input_password">密码：</string>
     <string name="input_password2">确认密码：</string>
     <string name="register_success">注册成功</string>
+    <string name="send_success">发送成功</string>
     <string name="error_name_used">该用户名已被注册</string>
     <string name="error_diffrent_password">两次密码不一致</string>
     <string name="error_empty">用户名密码不能为空</string>
+    <string name="error_message_empty">用户名或消息为空</string>
     <string name="action_confirm">确定</string>
     <string name="action_cancel">取消</string>
     <string name="username_hint">输入用户名</string>
