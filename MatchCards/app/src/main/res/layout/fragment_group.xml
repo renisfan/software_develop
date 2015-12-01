@@ -58,11 +58,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/create_group_text" />
 
-        <ExpandableListView
-            android:id="@+id/android:list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginTop="100dp"/>
+        <ExpandableListView android:id="@+id/list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginTop="100dp" />
     </RelativeLayout>
 
 </RelativeLayout>

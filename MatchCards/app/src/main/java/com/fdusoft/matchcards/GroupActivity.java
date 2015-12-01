@@ -117,28 +117,7 @@ public class GroupActivity extends ExpandableListActivity {
         groups = new ArrayList<Map<String, String>>();
         childs = new ArrayList<List<Map<String, String>>>();
 
-        try {
-            String str = "select * from tb_"+this.myName+"_group";
-            Cursor cursor = db.rawQuery(str, null);
-            while (cursor.moveToNext()) {
-                //get a group which the user belongs to
-                Map<String, String> title = new HashMap<String, String>();
-                String groupName = cursor.getString(cursor.getColumnIndex("groupName"));
-                title.put("group", groupName);
-                groups.add(title);
 
-                //get members of the group
-                String str2 = "select * from tb_"+"group_"+groupName;
-                Cursor cursor2 = db.rawQuery(str2, null);
-                List<Map<String, String>> child = new ArrayList<Map<String, String>>();
-                while (cursor2.moveToNext()) {
-                    Map<String, String> title_content = new HashMap<String, String>();
-                    title_content.put("child", cursor2.getString(cursor2.getColumnIndex("member")));
-                    child.add(title_content);
-                }
-                childs.add(child);
-            }
-        } catch (Exception e) {}
 
         /**
          * 创建ExpandableList的Adapter容器 参数: 1.上下文 2.一级集合 3.一级样式文件 4. 一级条目键值

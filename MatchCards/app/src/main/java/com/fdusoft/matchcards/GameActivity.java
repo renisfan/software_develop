@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +25,6 @@ public class GameActivity extends Activity {
     private static final int[] levelSize = {12, 20, 20, 30, 30, 42, 42, 42, 42};
     private static final int[] levelTime = {45, 60, 45, 90, 60, 90, 60, 45, 30};
 
-    private static Handler handler;
     private static final int EVENT_CLOSE_CARD = 0;
     private static final int EVENT_TIME_UP = 1;
 
@@ -49,10 +49,61 @@ public class GameActivity extends Activity {
 
 	private Random random;
     private Timer timer;
+    private TimerHandler handler;
 
 	private CardItem firstCard = null;
 	private CardItem secondCard = null;
-			
+
+    private static class TimerHandler extends Handler {
+
+        private WeakReference<GameActivity> mOuter;
+
+        public TimerHandler(GameActivity activity) {
+            mOuter = new WeakReference<GameActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            GameActivity activity = mOuter.get();
+            switch (msg.what) {
+                case EVENT_CLOSE_CARD:
+                    activity.closeCards();
+                    break;
+                case EVENT_TIME_UP:
+                    activity.showResultDialog();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    }
+
+    private void closeCards() {
+        firstCard.setState(0);
+        secondCard.setState(0);
+        firstCard = null;
+        secondCard = null;
+        cardAdapter.notifyDataSetChanged();
+    }
+
+    private void showResultDialog() {
+        new AlertDialog.Builder(GameActivity.this).setTitle("时间到！")
+                .setMessage(String.format("您的分数:%d", score))
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        waiting = false;
+                    }
+                })
+                .setNeutralButton("分享", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: implement share
+                        waiting = false;
+                    }
+                })
+                .setCancelable(false).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// Initialize layout
@@ -63,40 +114,7 @@ public class GameActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
         width = dMetrics.widthPixels;
 
-        // NOTE: Android Studio gives wrong warning about handler not being static, just ignore.
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case EVENT_CLOSE_CARD:
-                        firstCard.setState(0);
-                        secondCard.setState(0);
-                        firstCard = null;
-                        secondCard = null;
-                        cardAdapter.notifyDataSetChanged();
-                        break;
-                    case EVENT_TIME_UP:
-                        new AlertDialog.Builder(GameActivity.this).setTitle("时间到！")
-                                .setMessage(String.format("您的分数:%d", score))
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        waiting=false;
-                                    }
-                                })
-                                .setNeutralButton("分享", new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // TODO: implement share
-                                        waiting=false;
-                                    }
-                                })
-                                .setCancelable(false).show();
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
+        handler = new TimerHandler(GameActivity.this);
 
         random = new Random();
 
