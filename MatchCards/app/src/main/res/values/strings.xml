@@ -37,6 +37,8 @@
     <string name="game_level">等级:%1$d　限时:%2$d秒</string>
     <string name="share_text">我刚在Match Cards中得了%1$d分，你也来试试吧。</string>
     <string name="action_add_friend">添加好友</string>
+    <string name="action_give_chance">赠送机会</string>
+    <string name="friend_name_hint">输入好友名</string>
     <string name="action_create_group">创建群组</string>
     <string name="action_join_group">加入群组</string>
     <string name="group_not_exist">不存在该群组！</string>
