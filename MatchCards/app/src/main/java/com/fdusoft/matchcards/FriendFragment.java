@@ -114,6 +114,23 @@ public class FriendFragment extends Fragment {
         }
     }
 
+    public void sendMessage(String friendName) {
+        db = SQLiteDatabase.openOrCreateDatabase(getActivity().getFilesDir().toString()
+                + "/test.dbs", null);
+
+        String content = "好友" + myName + "赠送了一次游戏机会给你";
+
+        try {
+            db.execSQL("create table " + friendName + "_oldMessage( detail varchar(200), sender varchar(20))");
+        } catch (SQLiteException e) {
+        }
+
+        try {
+            db.execSQL("insert into " + friendName + "_oldMessage values(?,?)", new Object[]{content, myName});
+        } catch (SQLiteException e) {
+        }
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         db = SQLiteDatabase.openOrCreateDatabase(getActivity().getFilesDir().toString()
@@ -154,7 +171,6 @@ public class FriendFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO : receiver user should get a message
 
                 String friendName = giveChanceText.getText().toString();
                 if (friendName.equals(myName)) {
@@ -180,6 +196,7 @@ public class FriendFragment extends Fragment {
                     else {
                         updateChance(myName,myChance - 1);
                         updateChance(friendName,friendChance + 1);
+                        sendMessage(friendName);
                         Toast.makeText(getActivity().getApplicationContext(), "已赠送一次机会给好友" + friendName,
                                 Toast.LENGTH_SHORT).show();
                     }
