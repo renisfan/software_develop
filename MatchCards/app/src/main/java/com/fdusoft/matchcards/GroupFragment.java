@@ -27,6 +27,7 @@ public class GroupFragment extends Fragment {
     private ExpandableListView expandableListView;
     private TextView createGroupText;
     private TextView joinGroupText;
+    private GroupAdapter adapter;
 
     public static GroupFragment getGroupFragment(String username) {
         GroupFragment fragment = new GroupFragment();
@@ -43,7 +44,29 @@ public class GroupFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         expandableListView = (ExpandableListView)view.findViewById(R.id.group_list);
-        expandableListView.setAdapter(getAdapter());
+        adapter = getAdapter();
+        expandableListView.setAdapter(adapter);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                String text;
+                text = adapter.getChild(groupPosition, childPosition).toString();
+                String memberName = text.substring(0, text.indexOf(" "));
+
+                String strLike = "select * from tb_like where name=?";
+                Cursor cursorLike;
+                int like = 0;
+                cursorLike = db.rawQuery(strLike, new String[]{memberName});
+                if (cursorLike.moveToFirst())
+                    like = cursorLike.getInt(cursorLike.getColumnIndex("like"));
+                db.execSQL("update tb_like set like=? where name=?", new Object[]{like+1, memberName});
+
+                adapter = getAdapter();
+                expandableListView.setAdapter(adapter);
+                return true;
+            }
+        });
 
         joinGroupText = (TextView) view.findViewById(R.id.join_group_text);
         createGroupText = (TextView) view.findViewById(R.id.create_group_text);
@@ -59,7 +82,8 @@ public class GroupFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     joinOrCreateGroup(groupName);
-                    expandableListView.setAdapter(getAdapter());
+                    adapter = getAdapter();
+                    expandableListView.setAdapter(adapter);
                 }
             }
         });
@@ -76,7 +100,8 @@ public class GroupFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     joinOrCreateGroup(groupName);
-                    expandableListView.setAdapter(getAdapter());
+                    adapter = getAdapter();
+                    expandableListView.setAdapter(adapter);
                 }
             }
         });
@@ -115,10 +140,12 @@ public class GroupFragment extends Fragment {
     class Score implements Comparable<Score> {
         int score;
         String name;
+        int like;
 
-        public Score(int score, String name) {
+        public Score(int score, String name, int like) {
             this.score = score;
             this.name = name;
+            this.like = like;
         }
 
         @Override
@@ -154,7 +181,18 @@ public class GroupFragment extends Fragment {
                     if (cursorScore.moveToFirst())
                         highScore = cursorScore.getInt(cursorScore.getColumnIndex("highScore"));
 
-                    scores.add(new Score(highScore, memberName));
+                    String strLike = "select * from tb_like where name=?";
+                    Cursor cursorLike;
+                    int like = 0;
+                    cursorLike = db.rawQuery(strLike, new String[]{memberName});
+                    if (cursorLike.moveToFirst())
+                        like = cursorLike.getInt(cursorLike.getColumnIndex("like"));
+                    else {
+                        String strTemp = "insert into tb_like values(?,?)";
+                        db.execSQL(strTemp, new String[] { memberName, "0"});
+                    }
+
+                    scores.add(new Score(highScore, memberName, like));
 
                 }
 
@@ -162,7 +200,7 @@ public class GroupFragment extends Fragment {
                 ArrayList<String> child = new ArrayList<String>();
 
                 for (Score temp : scores) {
-                    child.add(temp.name + "    score: " + temp.score);
+                    child.add(temp.name + "    score: " + temp.score + "    like: " + temp.like);
                 }
 
                 children.add(child);
