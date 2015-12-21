@@ -99,6 +99,16 @@ public class GameFragment extends Fragment {
                 }
             }
         });
+
+        Button uploadGameButton = (Button) view.findViewById(R.id.upload_game);
+        uploadGameButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "上传成功!", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
