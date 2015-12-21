@@ -200,7 +200,7 @@ public class GroupFragment extends Fragment {
                 ArrayList<String> child = new ArrayList<String>();
 
                 for (Score temp : scores) {
-                    child.add(temp.name + "    score: " + temp.score + "    like: " + temp.like);
+                    child.add(temp.name + "    score: " + temp.score + "    ❤: " + temp.like);
                 }
 
                 children.add(child);
