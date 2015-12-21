@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ public class MessageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         TextView myTextView = (TextView) view.findViewById(R.id.oldMessage);
+        myTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+
 
         db = SQLiteDatabase.openOrCreateDatabase(getActivity().getFilesDir().toString()
                 + "/test.dbs", null);
