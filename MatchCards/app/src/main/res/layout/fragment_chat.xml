@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/chat_top"
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/groupname_hint"
+            android:ems="10"
+            android:gravity="top"
+            android:id="@+id/enter_chat_text"
+            android:layout_alignParentTop = "true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/enter_chat_button"
+            android:layout_toStartOf="@+id/enter_chat_button"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_enter_chat"
+            android:id="@+id/enter_chat_button"
+            android:layout_alignBottom="@+id/enter_chat_text"
+            android:layout_alignParentTop = "true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/chat_top"
+        android:id="@+id/chat_bottom"
+        android:gravity="bottom"
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="100dp"
+            android:inputType="textMultiLine"
+            android:hint=""
+            android:ems="10"
+            android:gravity="bottom"
+            android:id="@+id/send_words_text"
+            android:layout_alignParentBottom = "true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/send_words_button"
+            android:layout_toStartOf="@+id/send_words_button"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_send_words"
+            android:id="@+id/send_words_button"
+            android:layout_alignBottom="@+id/send_words_text"
+            android:layout_alignParentBottom = "true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+        <TextView
+            android:gravity="bottom"
+            android:id="@+id/chat_history"
+            android:hint=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_above="@id/send_words_text"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignLeft="@id/send_words_text"
+            android:layout_alignRight="@id/send_words_button"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
