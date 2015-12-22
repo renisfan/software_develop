@@ -6,6 +6,7 @@
     <string name="game_section">游戏空间</string>
     <string name="friend_section">我的好友</string>
     <string name="group_section">我的群组</string>
+    <string name="chat_section">群组聊天</string>
     <string name="action_logout">注销</string>
     <string name="login_hint">用户登录</string>
     <string name="action_login">登录</string>
@@ -42,6 +43,8 @@
     <string name="friend_name_hint">输入好友名</string>
     <string name="action_create_group">创建群组</string>
     <string name="action_join_group">加入群组</string>
+    <string name="action_enter_chat">进入聊天</string>
+    <string name="action_send_words">发送</string>
     <string name="group_not_exist">不存在该群组！</string>
     <string name="group_already_exist">已存在该群组！</string>
     <string name="alert_play_time">您已连续游戏超过%1$d小时，请注意健康！</string>

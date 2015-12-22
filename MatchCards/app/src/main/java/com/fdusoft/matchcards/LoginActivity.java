@@ -65,6 +65,11 @@ public class LoginActivity extends Activity {
         }catch(SQLiteException e) {
         }
 
+        try {
+            db.execSQL("create table tb_like(name varchar(30) primary key,like int)");
+        }catch(SQLiteException e) {
+        }
+
         //Set listener
         loginButton.setOnClickListener(new View.OnClickListener() {
 

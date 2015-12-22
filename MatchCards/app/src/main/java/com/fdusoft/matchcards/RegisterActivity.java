@@ -104,6 +104,8 @@ public class RegisterActivity extends Activity {
             db.execSQL(str, new String[] { name, password });
             str = "insert into tb_score values(?,?)";
             db.execSQL(str, new String[] { name, "0"});
+            str = "insert into tb_like values(?,?)";
+            db.execSQL(str, new String[] { name, "0"});
             return true;
         } catch (Exception e) {
             try {

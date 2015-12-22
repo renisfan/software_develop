@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private FriendFragment currentFriendFragment = null;
     private GroupFragment currentGroupFragment = null;
     private MessageFragment currentMessageFragment = null;
+    private ChatFragment currentChatFragment = null;
 
     private SQLiteDatabase db;
 
@@ -277,6 +278,7 @@ public class MainActivity extends AppCompatActivity
                     currentGameFragment).commit();
             currentFriendFragment = null;
             currentGroupFragment = null;
+            currentChatFragment = null;
             currentMessageFragment = null;
         } else if (id == R.id.nav_friend) {
             currentFriendFragment = FriendFragment.getFriendFragment(username);
@@ -284,6 +286,7 @@ public class MainActivity extends AppCompatActivity
                     currentFriendFragment).commit();
             currentGameFragment = null;
             currentGroupFragment = null;
+            currentChatFragment = null;
             currentMessageFragment = null;
         } else if (id == R.id.nav_group) {
             currentGroupFragment = GroupFragment.getGroupFragment(username);
@@ -291,6 +294,15 @@ public class MainActivity extends AppCompatActivity
                     currentGroupFragment).commit();
             currentGameFragment = null;
             currentFriendFragment = null;
+            currentChatFragment = null;
+            currentMessageFragment = null;
+        } else if (id == R.id.nav_chat) {
+            currentChatFragment = ChatFragment.getChatFragment(username);
+            getFragmentManager().beginTransaction().replace(R.id.container,
+                    currentChatFragment).commit();
+            currentGameFragment = null;
+            currentFriendFragment = null;
+            currentGroupFragment = null;
             currentMessageFragment = null;
         } else if (id == R.id.nav_message) {
             currentMessageFragment = MessageFragment.getMessageFragment(username);
@@ -299,6 +311,7 @@ public class MainActivity extends AppCompatActivity
             currentGameFragment = null;
             currentFriendFragment = null;
             currentGroupFragment = null;
+            currentChatFragment = null;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
