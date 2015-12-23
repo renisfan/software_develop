@@ -34,6 +34,7 @@
     <string name="game_chance">剩余游戏次数:%1$d</string>
     <string name="high_score">我的最高分:%1$d</string>
     <string name="game_start">开始游戏</string>
+    <string name="upload_game">上传游戏结果</string>
     <string name="game_score">分数:%1$d</string>
     <string name="game_level">等级:%1$d　限时:%2$d秒</string>
     <string name="share_text">我刚在Match Cards中得了%1$d分，你也来试试吧。</string>

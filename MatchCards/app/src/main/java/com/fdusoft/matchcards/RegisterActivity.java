@@ -68,6 +68,11 @@ public class RegisterActivity extends Activity {
                             }catch(SQLiteException e){
                             }
 
+                            try {
+                                db.execSQL("insert into tb_highScore values(?,?)", new Object[]{name, 0});
+                            }catch(SQLiteException e) {
+
+                            }
 
                             Toast.makeText(RegisterActivity.this,
                                     getString(R.string.register_success),

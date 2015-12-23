@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,6 +99,33 @@ public class GameFragment extends Fragment {
                     getActivity().startActivityForResult(intent, MainActivity.REQUEST_GAME);
                 }
             }
+        });
+
+        Button uploadGameButton = (Button) view.findViewById(R.id.upload_game);
+        uploadGameButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int HighScore = highScore;
+
+                try {
+                    Cursor cursor = db.rawQuery("select * from tb_highScore where name=?", new String[]{username});
+                    cursor.moveToFirst();
+                    int dbHighScore = cursor.getInt(cursor.getColumnIndex("highScore"));
+
+                    if (dbHighScore < HighScore) {
+                        db.execSQL("insert into tb_highScore values(?,?)", new Object[]{username,HighScore});
+                    }
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "上传成功!", Toast.LENGTH_SHORT).show();
+                }
+                catch(SQLiteException e) {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "由于网络原因，上传失败，请稍后再试!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
         });
         return view;
     }
